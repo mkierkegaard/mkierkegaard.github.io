@@ -57,7 +57,7 @@
 											</header>
 											
 											<p>
-											<img src="images/kuberochblad_white-notext.png" align="left" width="20%" height="20%" alt="" />
+											<!--<img src="images/kuberochblad_white-notext.png" align="left" width="20%" height="20%" alt="" /> -->
 											How nice of you to check out my web site. I'm Martin Kierkegaard and i'm currently studying 
 											my fifth year at master of science in media technologies and engineering at Linköping University.
 											I like the combination of creativity and cool visual stuff combined with a technical challenge. 
@@ -66,23 +66,7 @@
 											<p>But I do other stuff too! On my spare time I go sports climbing with my friends a couple of times each week
 											or play computer games with them at home. I also have a big interest in music, last year(2014) I had 28 000
 											minutes of listened music on Spotify and most of it is heavier stuff.</p>
-											<p>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra
-											ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel. Praesent nec orci
-											eget quam rutrum bibendum. Proin pellentesque diam non ligula commodo tempor. Vivamus
-											eget urna nibh. Curabitur non fringilla nisl. Donec accumsan interdum nisi, quis
-											tincidunt felis sagittis eget. Donec elementum ligula dignissim sem pulvinar non semper
-											odio eleifend. Duis commodo fringilla commodo. Aliquam erat volutpat. Vestibulum
-											facilisis leo magna. Cras sit amet urna eros, id egestas urna. Quisque aliquam
-											tempus euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-											posuere cubilia.</p>
-											<p>Phasellus nisl nisl, varius id porttitor sed, pellentesque ac orci. Pellentesque
-											habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi
-											bibendum justo sed mauris vehicula malesuada aliquam elit imperdiet. Aliquam eu nibh
-											lorem, eget gravida mi. Duis odio diam, luctus et vulputate vitae, vehicula ac dolor.
-											Pellentesque at urna eget tellus lobortis ultrices sed non erat. Donec eget erat non
-											magna volutpat malesuada quis eget eros. Nullam sodales cursus sapien, id consequat
-											leo suscipit ut. Praesent id turpis vitae turpis pretium ultricies. Vestibulum sit
-											amet risus elit.</p>
+											
 										</article>
 										
 									</div>
@@ -119,7 +103,7 @@
 
 								<!-- Contact Form -->
 									<section>
-										<form method="post" action="#">
+										<form method="post" name="contact_form" action="contact-form-handler.php">
 											<div class="row 50%">
 												<div class="6u 12u(mobile)">
 													<input type="text" name="name" id="contact-name" placeholder="Name" />
@@ -136,12 +120,19 @@
 											<div class="row">
 												<div class="12u">
 													<ul class="actions">
-														<li><input type="submit" class="style1" value="Send" /></li>
+														<li><input type="submit" class="style1" value="Submit" /></li>
 														<li><input type="reset" class="style2" value="Reset" /></li>
 													</ul>
 												</div>
 											</div>
 										</form>
+										<script language="JavaScript">
+											var frmvalidator  = new Validator("contactform");
+											frmvalidator.addValidation("name","req","Please provide your name");
+											frmvalidator.addValidation("email","req","Please provide your email");
+											frmvalidator.addValidation("email","email",
+											"Please enter a valid email address");
+										</script>
 									</section>
 
 							</div>
@@ -183,6 +174,7 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/gen_validatorv31.js"></script>
 
 	</body>
 </html>
