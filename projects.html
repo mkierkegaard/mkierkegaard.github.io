@@ -107,7 +107,7 @@
 													<header>
 														<h2>Massive Multiplayer Dome Game</h2>
 													</header>
-													<a href="#" class="image featured"><img src="images/pic06.jpg" alt="" /></a>
+													<a href="#" class="image featured"><img src="images/mmdg.png" alt="" /></a>
 													<p>My bachelor project I did with 7 other members. A system for communication between mobile phones and applications for very large displays using multiple projectors, dome theaters and planetarioms in particular.
 													Primarily for playing games letting visiting crowds in dome theaters interact with what is displayed on the screen. Server part developed in Java and used WebSockets to communicate with mobile phones. 
 													 A "proof of concept" also developed, in C ++, which used the ASCII strings via TCP for communication between the server and application. Up to a hundred people could play against / with each other simultaneously on a single large display.</p>
@@ -183,11 +183,8 @@
 					<div class="title">The Rest Of It</div>
 					<div id="footer" class="container">
 						<header class="style1">
-							<h2>Ipsum sapien elementum portitor?</h2>
-							<p>
-								Sed turpis tortor, tincidunt sed ornare in metus porttitor mollis nunc in aliquet.<br />
-								Nam pharetra laoreet imperdiet volutpat etiam consequat feugiat.
-							</p>
+							<h2>Want to get in touch?</h2>
+							
 						</header>
 						<hr />
 						<div class="row 150%">
@@ -195,7 +192,7 @@
 
 								<!-- Contact Form -->
 									<section>
-										<form method="post" action="#">
+										<form method="post" name="contact_form" action="contact-form-handler.php">
 											<div class="row 50%">
 												<div class="6u 12u(mobile)">
 													<input type="text" name="name" id="contact-name" placeholder="Name" />
@@ -212,12 +209,19 @@
 											<div class="row">
 												<div class="12u">
 													<ul class="actions">
-														<li><input type="submit" class="style1" value="Send" /></li>
+														<li><input type="submit" class="style1" value="Submit" /></li>
 														<li><input type="reset" class="style2" value="Reset" /></li>
 													</ul>
 												</div>
 											</div>
 										</form>
+										<script language="JavaScript">
+											var frmvalidator  = new Validator("contactform");
+											frmvalidator.addValidation("name","req","Please provide your name");
+											frmvalidator.addValidation("email","req","Please provide your email");
+											frmvalidator.addValidation("email","email",
+											"Please enter a valid email address");
+										</script>
 									</section>
 
 							</div>
@@ -228,39 +232,9 @@
 										<div class="row">
 											<div class="6u 12u(mobile)">
 												<section>
-													<h3 class="icon fa-home">Mailing Address</h3>
-													<p>
-														Untitled Corporation<br />
-														1234 Somewhere Rd #987<br />
-														Nashville, TN 00000-0000
-													</p>
-												</section>
-											</div>
-											<div class="6u 12u(mobile)">
-												<section>
 													<h3 class="icon fa-comment">Social</h3>
 													<p>
-														<a href="#">@untitled-corp</a><br />
-														<a href="#">linkedin.com/untitled</a><br />
-														<a href="#">facebook.com/untitled</a>
-													</p>
-												</section>
-											</div>
-										</div>
-										<div class="row">
-											<div class="6u 12u(mobile)">
-												<section>
-													<h3 class="icon fa-envelope">Email</h3>
-													<p>
-														<a href="#">info@untitled.tld</a>
-													</p>
-												</section>
-											</div>
-											<div class="6u 12u(mobile)">
-												<section>
-													<h3 class="icon fa-phone">Phone</h3>
-													<p>
-														(000) 555-0000
+														<a href="#">https://se.linkedin.com/in/mkierkegaard</a><br />
 													</p>
 												</section>
 											</div>
@@ -273,7 +247,7 @@
 					</div>
 					<div id="copyright">
 						<ul>
-							<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</div>
 				</div>
