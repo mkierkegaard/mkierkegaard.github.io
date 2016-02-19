@@ -115,7 +115,7 @@ window.addEventListener( 'load', function() {
     // create a wireframe material		
   material = new THREE.ShaderMaterial( {
         uniforms: {
-        tExplosion: {type: "t", value: THREE.ImageUtils.loadTexture( 'pattern1.png' )},
+        tExplosion: {type: "t", value: THREE.ImageUtils.loadTexture( 'pattern5.png' )},
         time: {type: "f", value: 0.0},
         soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
         },
