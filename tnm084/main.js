@@ -76,7 +76,7 @@ SHADER_LOADER.load(
                 soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
             }
             fragmentUniform = {
-                tExplosion: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')}
+                texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')}
             }
 
             var vShader = data.shader.vertex;
@@ -84,7 +84,7 @@ SHADER_LOADER.load(
 
             material = new THREE.ShaderMaterial( {
             uniforms: {
-            tExplosion: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
+            texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
             time: {type: "f", value: 0.0},
             soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
             },
@@ -137,33 +137,8 @@ window.addEventListener( 'load', function() {
 
 function render() {
     updateUniforms();
-    
-    /*if (document.getElementById('pattern1').checked) {
-                //imageValue = document.getElementById('pattern1').value;
-
-                
-                mesh = new THREE.Mesh( 
-                new THREE.IcosahedronGeometry( 20, 4 ), 
-                material 
-                );
-                
-            }
-    else if (document.getElementById('pattern2').checked) {
-                //imageValue = document.getElementById('pattern2').value;
-                
-                material.uniforms['tExplosion'].value = textureLoader.load('pattern' + imageValue + '.png');
-               
-                mesh = new THREE.Mesh( 
-                new THREE.IcosahedronGeometry( 20, 4 ), 
-                material 
-                );
-            }*/
-    
-    //material.uniforms['tExplosion'].value = textureLoader.load('pattern' + imageValue + '.png');
-    //material.needsUpdate = true;
-
-    
-
+    material.transparent = true;
+    material.opacity = 0.0;
 
     renderer.setSize(window.innerWidth*0.97, window.innerHeight*0.97);
     renderer.render( scene, camera );
@@ -176,6 +151,6 @@ function updateUniforms(){
     material.uniforms['soundDisplacement'].value = dataArray;
     $("input[name=pattern]:radio").change(function () {
         imageValue = $('input[name=pattern]:checked').val();
-        material.uniforms['tExplosion'].value = textureLoader.load('pattern' + imageValue + '.png');
+        material.uniforms['texture'].value = textureLoader.load('pattern' + imageValue + '.png');
     });
 }
