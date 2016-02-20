@@ -13,7 +13,8 @@ var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var source;
 var stream;
 var dataArray = new Uint8Array(256);
-
+var imageValue = $('input[name=pattern]:checked').val();
+var textureLoader = new THREE.TextureLoader();
 //set up the different audio nodes we will use for the app
 
 var analyser = audioCtx.createAnalyser();
@@ -64,32 +65,37 @@ function visualize() {
 
 }
 
-/*SHADER_LOADER.load(
+SHADER_LOADER.load(
         function(data){
+
+            
+            
+
             vertexUniforms = {
                 time: {type: "f", value: 0.0},
                 soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
             }
             fragmentUniform = {
-                tExplosion: {type: "t", value: THREE.ImageUtils.loadTexture( 'pattern1.png' )}
+                tExplosion: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')}
             }
 
-            var vShader = data.vert.vertex;
-            var fShader = data.fram.fragment;
+            var vShader = data.shader.vertex;
+            var fShader = data.shader.fragment;
 
             material = new THREE.ShaderMaterial( {
             uniforms: {
-            tExplosion: {type: "t", value: THREE.ImageUtils.loadTexture( 'pattern1.png' )},
+            tExplosion: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
             time: {type: "f", value: 0.0},
             soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
             },
-            vertexShader: document.getElementById( 'vertexShader' ).textContent,
-            fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+            vertexShader: vShader,
+            fragmentShader: fShader
             } );
 
             }
+            
+    )
 
-    )*/
 
 window.addEventListener( 'load', function() {
 
@@ -111,17 +117,6 @@ window.addEventListener( 'load', function() {
     camera.target = new THREE.Vector3( 0, 0, 0 );
 
     scene.add( camera );
-
-    // create a wireframe material		
-  material = new THREE.ShaderMaterial( {
-        uniforms: {
-        tExplosion: {type: "t", value: THREE.ImageUtils.loadTexture( 'pattern5.png' )},
-        time: {type: "f", value: 0.0},
-        soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
-        },
-        vertexShader: document.getElementById( 'vertexShader' ).textContent,
-        fragmentShader: document.getElementById( 'fragmentShader' ).textContent
-        } );
     
     // create a sphere and assign the material
     mesh = new THREE.Mesh( 
@@ -131,7 +126,7 @@ window.addEventListener( 'load', function() {
     scene.add( mesh );
     
     // create the renderer and attach it to the DOM
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize( window.innerWidth, window.innerHeight );
     
     container.appendChild( renderer.domElement );
@@ -141,11 +136,46 @@ window.addEventListener( 'load', function() {
 } );
 
 function render() {
+    updateUniforms();
+    
+    /*if (document.getElementById('pattern1').checked) {
+                //imageValue = document.getElementById('pattern1').value;
 
-    material.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
-    material.uniforms['soundDisplacement'].value = dataArray;
+                
+                mesh = new THREE.Mesh( 
+                new THREE.IcosahedronGeometry( 20, 4 ), 
+                material 
+                );
+                
+            }
+    else if (document.getElementById('pattern2').checked) {
+                //imageValue = document.getElementById('pattern2').value;
+                
+                material.uniforms['tExplosion'].value = textureLoader.load('pattern' + imageValue + '.png');
+               
+                mesh = new THREE.Mesh( 
+                new THREE.IcosahedronGeometry( 20, 4 ), 
+                material 
+                );
+            }*/
+    
+    //material.uniforms['tExplosion'].value = textureLoader.load('pattern' + imageValue + '.png');
+    //material.needsUpdate = true;
+
+    
+
+
     renderer.setSize(window.innerWidth*0.97, window.innerHeight*0.97);
     renderer.render( scene, camera );
     requestAnimationFrame( render );
     
+}
+
+function updateUniforms(){
+    material.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
+    material.uniforms['soundDisplacement'].value = dataArray;
+    $("input[name=pattern]:radio").change(function () {
+        imageValue = $('input[name=pattern]:checked').val();
+        material.uniforms['tExplosion'].value = textureLoader.load('pattern' + imageValue + '.png');
+    });
 }

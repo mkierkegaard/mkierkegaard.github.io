@@ -1,0 +1,31 @@
+#container { 
+  position: relative;
+  height: 80%; 
+  width: 50%; 
+}
+#navi,
+#infoi {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#infoi {
+  z-index: 10;
+}
+#menu {
+  height: 100%;
+  width: 20%;
+  background-color: #232323;
+  position: absolute;
+  border-right: 1px solid;
+  border-color: white;
+  padding-left: 0px;
+  border-style: hidden;
+  color: white;
+  text-align: center;
+}
+#imageItem{
+  display: inline-block
+}
