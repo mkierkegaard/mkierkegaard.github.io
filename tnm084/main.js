@@ -15,6 +15,34 @@ var stream;
 var dataArray = new Uint8Array(256);
 var imageValue = $('input[name=pattern]:checked').val();
 var textureLoader = new THREE.TextureLoader();
+$('.noise-frequency-input').jRange({
+    from: 0,
+    to: 255,
+    step: 1,
+    scale: [0,255],
+    format: '%s',
+    width: document.getElementById("menu").offsetWidth*0.8,
+    showLabels: true,
+    showScale: true,
+    isRange : true,
+    theme: "theme-blue"
+});
+var soundSize = $('.size-frequency-input').jRange({
+    from: 0,
+    to: 255,
+    step: 1,
+    scale: [0,255],
+    format: '%s',
+    width: document.getElementById("menu").offsetWidth*0.8,
+    showLabels: true,
+    showScale: true,
+    isRange : true,
+    theme: "theme-blue"
+});
+var sizeString = $('.size-frequency-input').val();
+var sizeStringSplit = sizeString.split(",");
+var soundSizeUniform = sizeStringSplit;
+
 //set up the different audio nodes we will use for the app
 
 var analyser = audioCtx.createAnalyser();
@@ -53,7 +81,7 @@ function visualize() {
 
     analyser.fftSize = 512;
     var bufferLength = analyser.frequencyBinCount;
-    console.log(bufferLength);
+    //console.log(bufferLength);
     dataArray = new Uint8Array(bufferLength);
 
     function draw() {
@@ -65,6 +93,7 @@ function visualize() {
 
 }
 
+
 SHADER_LOADER.load(
         function(data){
 
@@ -73,7 +102,8 @@ SHADER_LOADER.load(
 
             vertexUniforms = {
                 time: {type: "f", value: 0.0},
-                soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
+                soundDisplacement: {type: "i", value: 1},
+                soundSize: {type: "i", value: soundSizeUniform}
             }
             fragmentUniform = {
                 texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')}
@@ -86,7 +116,8 @@ SHADER_LOADER.load(
             uniforms: {
             texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
             time: {type: "f", value: 0.0},
-            soundDisplacement: {type: "iv1", value: new Uint8Array(256)}
+            soundDisplacement: {type: "i", value: 1},
+            soundSize: {type: "i", value: soundSizeUniform}
             },
             vertexShader: vShader,
             fragmentShader: fShader
@@ -147,8 +178,36 @@ function render() {
 }
 
 function updateUniforms(){
+    
+    var soundNoiseUniform = 1;
+    var noiseString = $('.noise-frequency-input').val();
+    var noiseStringSplit = noiseString.split(",");
+    var startNoise = noiseStringSplit[0];
+    var endNoise = noiseStringSplit[1];
+    for(i = startNoise; i < endNoise; i++){
+        soundNoiseUniform += dataArray[i];
+    }
+    soundNoiseUniform /= (endNoise - startNoise);
+
+    
+    var sizeString = $('.size-frequency-input').val();
+    var sizeStringSplit = sizeString.split(",");
+    soundSizeUniform = 0;
+
+    var startSize = sizeStringSplit[0];
+    var endSize = sizeStringSplit[1];
+
+    for(i = startSize; i < endSize; i++){
+        soundSizeUniform += dataArray[i];
+    }
+    soundSizeUniform = soundSizeUniform/(endSize - startSize);
+
+
+
     material.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
-    material.uniforms['soundDisplacement'].value = dataArray;
+    material.uniforms['soundDisplacement'].value = soundNoiseUniform;
+    material.uniforms['soundSize'].value = soundSizeUniform;
+
     $("input[name=pattern]:radio").change(function () {
         imageValue = $('input[name=pattern]:checked').val();
         material.uniforms['texture'].value = textureLoader.load('pattern' + imageValue + '.png');
