@@ -168,6 +168,8 @@ varying float noise;
 uniform float time;
 uniform int soundDisplacement;
 uniform int soundSize;
+varying vec3 fnormal;
+varying vec3 newPosition;
 
 float turbulence( vec3 p ) {
     float w = 100.0;
@@ -182,15 +184,16 @@ float turbulence( vec3 p ) {
 void main() {
     
     vUv = uv;
-    //float soundFloat = float(soundUniform.value);
-
+    fnormal = normal;
     // add time to the noise parameters so it's animated
     noise = 10.0 *  -.12 * turbulence( .5 * normal + time )* (float(soundDisplacement)/100.0);
     float b = 5.0 * pnoise( 0.05 * position + vec3( 2.0 * time ), vec3( 100.0 ) );
 
     float displacement = - 10. * noise + b + float(soundSize)/2.0;
     
-    vec3 newPosition = position + normal * displacement;
+    newPosition = position + normal * displacement;
+
+
     gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 
 }

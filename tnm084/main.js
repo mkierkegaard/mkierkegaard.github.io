@@ -43,6 +43,8 @@ var sizeString = $('.size-frequency-input').val();
 var sizeStringSplit = sizeString.split(",");
 var soundSizeUniform = sizeStringSplit;
 
+var phongBool =  $('input[name=phong]:checked').val();
+
 //set up the different audio nodes we will use for the app
 
 var analyser = audioCtx.createAnalyser();
@@ -106,7 +108,8 @@ SHADER_LOADER.load(
                 soundSize: {type: "i", value: soundSizeUniform}
             }
             fragmentUniform = {
-                texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')}
+                texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
+                phong: {type: "i", value: phongBool}
             }
 
             var vShader = data.shader.vertex;
@@ -117,7 +120,8 @@ SHADER_LOADER.load(
             texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
             time: {type: "f", value: 0.0},
             soundDisplacement: {type: "i", value: 1},
-            soundSize: {type: "i", value: soundSizeUniform}
+            soundSize: {type: "i", value: soundSizeUniform},
+            phong: {type: "i", value: phongBool}
             },
             vertexShader: vShader,
             fragmentShader: fShader
@@ -154,6 +158,8 @@ window.addEventListener( 'load', function() {
         new THREE.IcosahedronGeometry( 20, 4 ), 
         material 
     );
+
+
     scene.add( mesh );
     
     // create the renderer and attach it to the DOM
@@ -198,9 +204,9 @@ function updateUniforms(){
     var endSize = sizeStringSplit[1];
 
     for(i = startSize; i < endSize; i++){
-        soundSizeUniform += dataArray[i];
+        soundSizeUniform += Math.min(dataArray[i], 3000/(endSize-startSize));
     }
-    soundSizeUniform = soundSizeUniform/(endSize - startSize);
+    soundSizeUniform = Math.min(soundSizeUniform/(endSize - startSize), 15);
 
 
 
@@ -212,4 +218,10 @@ function updateUniforms(){
         imageValue = $('input[name=pattern]:checked').val();
         material.uniforms['texture'].value = textureLoader.load('pattern' + imageValue + '.png');
     });
+    $("input[name=phong]:checkbox").change(function () {
+        phongBool = $('input[name=phong]:checked').val();
+        console.log(phongBool);
+        material.uniforms['phong'].value = phongBool;
+    });
+
 }
