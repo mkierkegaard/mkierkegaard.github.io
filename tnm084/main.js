@@ -124,7 +124,8 @@ SHADER_LOADER.load(
             phong: {type: "i", value: phongBool}
             },
             vertexShader: vShader,
-            fragmentShader: fShader
+            fragmentShader: fShader,
+            derivatives: true
             } );
 
             }
@@ -154,11 +155,12 @@ window.addEventListener( 'load', function() {
     scene.add( camera );
     
     // create a sphere and assign the material
-    mesh = new THREE.Mesh( 
-        new THREE.IcosahedronGeometry( 20, 4 ), 
+    mesh = new THREE.Mesh(
+        new THREE.IcosahedronGeometry( 20, 7 ), 
+        //new THREE.PlaneGeometry( 50, 50, 100, 100 ), 
         material 
     );
-
+    mesh.rotation.x = -Math.PI / 4;
 
     scene.add( mesh );
     
