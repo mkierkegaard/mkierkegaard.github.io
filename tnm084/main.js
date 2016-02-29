@@ -109,7 +109,8 @@ SHADER_LOADER.load(
             }
             fragmentUniform = {
                 texture: {type: "t", value: textureLoader.load('pattern' + imageValue + '.png')},
-                phong: {type: "i", value: phongBool}
+                phong: {type: "i", value: phongBool},
+                cameraDir: {type: "v3", value: 0}
             }
 
             var vShader = data.shader.vertex;
@@ -121,7 +122,8 @@ SHADER_LOADER.load(
             time: {type: "f", value: 0.0},
             soundDisplacement: {type: "i", value: 1},
             soundSize: {type: "i", value: soundSizeUniform},
-            phong: {type: "i", value: phongBool}
+            phong: {type: "i", value: phongBool},
+            cameraDir: {type: "v3", value:0}
             },
             vertexShader: vShader,
             fragmentShader: fShader,
@@ -153,10 +155,12 @@ window.addEventListener( 'load', function() {
     camera.target = new THREE.Vector3( 0, 0, 0 );
 
     scene.add( camera );
-    
+
+    material.uniforms[ 'cameraDir' ].value = camera.getWorldDirection;
+
     // create a sphere and assign the material
     mesh = new THREE.Mesh(
-        new THREE.IcosahedronGeometry( 20, 7 ), 
+        new THREE.IcosahedronGeometry( 20, 4 ), 
         //new THREE.PlaneGeometry( 50, 50, 100, 100 ), 
         material 
     );
@@ -186,6 +190,9 @@ function render() {
 }
 
 function updateUniforms(){
+
+    mesh.geometry.computeVertexNormals();
+    mesh.geometry.mergeVertices();
     
     var soundNoiseUniform = 1;
     var noiseString = $('.noise-frequency-input').val();
