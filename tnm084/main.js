@@ -227,9 +227,9 @@ function updateUniforms(){
         imageValue = $('input[name=pattern]:checked').val();
         material.uniforms['texture'].value = textureLoader.load('pattern' + imageValue + '.png');
     });
-    $("input[name=phong]:checkbox").change(function () {
+    $("input[name=phong]:radio").change(function () {
         phongBool = $('input[name=phong]:checked').val();
-        console.log(phongBool);
+        //console.log(phongBool);
         material.uniforms['phong'].value = phongBool;
     });
 

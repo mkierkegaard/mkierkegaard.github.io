@@ -191,9 +191,11 @@ void main() {
 
     float displacement = - 10. * noise + b + float(soundSize)/2.0;
     
-    newPosition = position + normal * displacement;
+    vec3 vPosition = position + normal * displacement;
+    
 
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+    newPosition = position;
     fnormal = normal;
 }
