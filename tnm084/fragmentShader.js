@@ -234,6 +234,31 @@ void main() {
       gl_FragColor = vec4( 0.01*color.rgb + diffuseColor + specular*specColor, 1.0);
     }
 
+    else if(phong == 4){
+
+      float fnoise = 10.0 *  -.12 * turbulence( .5 * fnormal + time )* (float(soundDisplacement)/100.0);
+      float b = 5.0 * pnoise( 0.05 * newPosition + vec3( 2.0 * time ), vec3( 100.0 ) );
+
+      float displacement = - 10. * fnoise + b + float(soundSize)/2.0;
+      vec3 fPosition = newPosition + fnormal * displacement;   
+
+      vec3 dx = dFdx(fPosition);
+      vec3 dy = dFdy(fPosition);
+      vec3 newNormal = normalize(cross(dx, dy)); 
+
+      vec3 lightDir = normalize(lightPos);
+      float intensity;
+      intensity = max(dot(lightDir,fnormal), 0.0);
+
+
+      float lambertian = max(dot(lightDir,newNormal), 0.0);
+      
+      vec3 diffuseColor = (0.3*intensity*color.rgb) + (lambertian*color.rgb*0.4);
+      
+
+      gl_FragColor = vec4( 0.01*color.rgb + diffuseColor, 1.0);
+    }
+
 
     else if(phong == 2){
 
