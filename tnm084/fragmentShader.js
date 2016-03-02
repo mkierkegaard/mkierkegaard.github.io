@@ -241,7 +241,7 @@ void main() {
       vec3 dy = dFdy(newPosition);
       vec3 newNormal = normalize(cross(dx, dy)); 
 
-      vec3 lightDir = normalize(lightPos);
+      vec3 lightDir = normalize(lightPos );
       float intensity;
       intensity = dot(lightDir,newNormal);
 
@@ -251,10 +251,10 @@ void main() {
 
       float lambertian = max(dot(lightDir,newNormal), 0.0);
       float specular = 0.0;
-      //if(lambertian > 0.0){
+      if(lambertian > 0.0){
         float specAngle = max(dot(reflectDir, viewDir), 0.0);
         specular = pow(specAngle, 16.0);
-      //}
+      }
 
       vec3 diffuseColor = intensity*color.rgb;
       vec3 specColor = vec3(1.0, 1.0, 1.0);
