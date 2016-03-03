@@ -6,6 +6,12 @@ var container,
     start = Date.now(),
     fov = 30;
 
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
+if(!isFirefox){
+    document.body.innerHTML =  'It seems like you are not using Firefox. This application sadly only works on Firefox at the moment, sorry bout that...';
+}
+
 // set up forked web audio context, for multiple browsers
 // window. is needed otherwise Safari explodes
 
