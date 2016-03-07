@@ -25,7 +25,7 @@ $('.noise-frequency-input').jRange({
     from: 0,
     to: 255,
     step: 1,
-    scale: [0,255],
+    scale: ["high","low"],
     format: '%s',
     width: document.getElementById("menu").offsetWidth*0.8,
     showLabels: true,
@@ -37,7 +37,7 @@ var soundSize = $('.size-frequency-input').jRange({
     from: 0,
     to: 255,
     step: 1,
-    scale: [0,255],
+    scale: ["high","low"],
     format: '%s',
     width: document.getElementById("menu").offsetWidth*0.8,
     showLabels: true,
@@ -200,17 +200,19 @@ function updateUniforms(){
     mesh.geometry.computeVertexNormals();
     mesh.geometry.mergeVertices();
     
-    var soundNoiseUniform = 1;
+    var soundNoiseUniform = 0;
     var noiseString = $('.noise-frequency-input').val();
     var noiseStringSplit = noiseString.split(",");
     var startNoise = noiseStringSplit[0];
     var endNoise = noiseStringSplit[1];
+
+    console.log("outside", startNoise, endNoise);
     for(i = startNoise; i < endNoise; i++){
         soundNoiseUniform += dataArray[i];
+        console.log(startNoise, endNoise);
     }
-    soundNoiseUniform /= (endNoise - startNoise);
 
-    
+    soundNoiseUniform /= (endNoise - startNoise);
     var sizeString = $('.size-frequency-input').val();
     var sizeStringSplit = sizeString.split(",");
     soundSizeUniform = 0;
@@ -218,8 +220,10 @@ function updateUniforms(){
     var startSize = sizeStringSplit[0];
     var endSize = sizeStringSplit[1];
 
+
     for(i = startSize; i < endSize; i++){
         soundSizeUniform += Math.min(dataArray[i], 3000/(endSize-startSize));
+
     }
     soundSizeUniform = Math.min(soundSizeUniform/(endSize - startSize), 15);
 
