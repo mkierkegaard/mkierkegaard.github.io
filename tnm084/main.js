@@ -12,6 +12,32 @@ if(!isFirefox){
     document.body.innerHTML =  'It seems like you are not using Firefox. This application sadly only works on Firefox at the moment, sorry bout that...';
 }
 
+var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+        menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+        menuTop = document.getElementById( 'cbp-spmenu-s3' ),
+        menuBottom = document.getElementById( 'cbp-spmenu-s4' ),
+        showLeft = document.getElementById( 'showLeft' ),
+        showRight = document.getElementById( 'showRight' ),
+        showTop = document.getElementById( 'showTop' ),
+        showBottom = document.getElementById( 'showBottom' ),
+        showLeftPush = document.getElementById( 'showLeftPush' ),
+        showRightPush = document.getElementById( 'showRightPush' ),
+        body = document.body;
+
+showLeftPush.onclick = function() {
+    classie.toggle( this, 'active' );
+    classie.toggle( body, 'cbp-spmenu-push-toright' );
+    classie.toggle( menuLeft, 'cbp-spmenu-open' );
+    if(camera.position.x == 0){
+        camera.position.x = -10;
+    }
+    else{
+        camera.position.x = 0;
+    }
+    
+    console.log('click');
+};
+
 // set up forked web audio context, for multiple browsers
 // window. is needed otherwise Safari explodes
 
@@ -157,7 +183,7 @@ window.addEventListener( 'load', function() {
         1, 
         10000 );
     camera.position.z = 100;
-    camera.position.x = -10;
+    camera.position.x = 0;
     camera.target = new THREE.Vector3( 0, 0, 0 );
 
     scene.add( camera );
@@ -206,10 +232,8 @@ function updateUniforms(){
     var startNoise = noiseStringSplit[0];
     var endNoise = noiseStringSplit[1];
 
-    console.log("outside", startNoise, endNoise);
     for(i = startNoise; i < endNoise; i++){
         soundNoiseUniform += dataArray[i];
-        console.log(startNoise, endNoise);
     }
 
     soundNoiseUniform /= (endNoise - startNoise);
